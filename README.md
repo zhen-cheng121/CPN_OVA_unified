@@ -48,14 +48,16 @@ bash imagenet_dce.sh
 
 To run CPN based on OVA or DCE evaluation for CIFAR-10/WRN-28-10, an example is:
 ```
-eval_cifar_ova.py --model wrn-28-10  \
+cd ./CIFAR
+python eval_cifar_ova.py --model wrn-28-10  \
     --model-path "checkpoints_download_cifar/cifar10_wrn_temp3p0_ova.pth"  \
     --temp 3.0  \
     --dataset cifar-10  \
     --score ova|sigmoid
 ```
 ```
-eval_cifar_dce.py --model wrn-28-10  \
+cd ./CIFAR
+python eval_cifar_dce.py --model wrn-28-10  \
     --model-path "checkpoints_download_cifar/cifar10_wrn_temp2p0_dce.pth"  \
     --temp 2.0  \
     --dataset cifar-10  \
@@ -63,6 +65,7 @@ eval_cifar_dce.py --model wrn-28-10  \
 ```
 To run CPN based on OVA or DCE evaluation for ImageNet-200/ResNet-50, an example is:
 ```
+cd ./ImageNet200
 python eval_cpn_ova.py --arch resnet50  \
     --temp 1.50  \
     --model_path "checkpoints_download_imagenet/resnet50_200_1.5_0.8_ova.pth.tar"  \
@@ -72,6 +75,7 @@ python eval_cpn_ova.py --arch resnet50  \
     --score_OOD ova|sigmoid
 ```
 ```
+cd ./ImageNet200
 python eval_cpn_dce.py --arch resnet50  \
     --temp 1.50  \
     --model_path "checkpoints_download_imagenet/resnet50_200_1.5_dce.pth.tar"  \

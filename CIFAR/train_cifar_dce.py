@@ -83,7 +83,7 @@ def eval_test(model, device, test_loader):
             batch_size = len(data)
             data, target = data.to(device), target.to(device)
             dist, _, _ = model(data)  # centers shape [10, 512], feature shape [64, 512], dist [64, 10]       
-            logits = -(dist - args.rej_threshold) * args.temp
+            logits = -dist * args.temp
             correct += (logits[:batch_size].max(1)[1] == target).sum().item()
             test_n += target.size(0)
     test_time = time.time()

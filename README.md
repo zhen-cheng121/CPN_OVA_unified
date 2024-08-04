@@ -1,4 +1,4 @@
-# CPN_OVA_unified
+# Unified Classification and Rejection: A One-versus-All Framework
 
 This repository is the PyTorch implementation for paper [Unified Classification and Rejection: A One-versus-All Framework](https://arxiv.org/abs/2311.13355). In this paper, we propose a unified framework for OpenSet Recognition (OSR) or Out-Of-Distribution (OOD) detection, performing multi-class classification and rejection using a single classifier, trained by one-versus-all (OVA) learning without OOD samples. This repository also provides the code to train convolutional prototype network (CPN) based on distance based cross entropy loss (DCE), proposed by [Yang et al.,2018](https://arxiv.org/abs/1805.03438) and [Yang et al.,2022](https://ieeexplore.ieee.org/document/9296325).
 <p align="center">
@@ -43,21 +43,26 @@ bash imagenet_ova.sh
 bash imagenet_dce.sh
 ```
 
+To run prototype classifier based on OVA or DCE training principle for ImageNet-500/DeiT-S, please refer to:  
+```
+cd ./ImageNet500-DeiT
+bash train.sh
+```
+
+
 
 ### 3. Testing
 
 To run CPN based on OVA or DCE evaluation for CIFAR-10/WRN-28-10, an example is:
 ```
-cd ./CIFAR
-python eval_cifar_ova.py --model wrn-28-10  \
+eval_cifar_ova.py --model wrn-28-10  \
     --model-path "checkpoints_download_cifar/cifar10_wrn_temp3p0_ova.pth"  \
     --temp 3.0  \
     --dataset cifar-10  \
     --score ova|sigmoid
 ```
 ```
-cd ./CIFAR
-python eval_cifar_dce.py --model wrn-28-10  \
+eval_cifar_dce.py --model wrn-28-10  \
     --model-path "checkpoints_download_cifar/cifar10_wrn_temp2p0_dce.pth"  \
     --temp 2.0  \
     --dataset cifar-10  \
@@ -65,7 +70,6 @@ python eval_cifar_dce.py --model wrn-28-10  \
 ```
 To run CPN based on OVA or DCE evaluation for ImageNet-200/ResNet-50, an example is:
 ```
-cd ./ImageNet200
 python eval_cpn_ova.py --arch resnet50  \
     --temp 1.50  \
     --model_path "checkpoints_download_imagenet/resnet50_200_1.5_0.8_ova.pth.tar"  \
@@ -75,7 +79,6 @@ python eval_cpn_ova.py --arch resnet50  \
     --score_OOD ova|sigmoid
 ```
 ```
-cd ./ImageNet200
 python eval_cpn_dce.py --arch resnet50  \
     --temp 1.50  \
     --model_path "checkpoints_download_imagenet/resnet50_200_1.5_dce.pth.tar"  \
@@ -84,7 +87,17 @@ python eval_cpn_dce.py --arch resnet50  \
     --OOD_dataset_dir 'imagenet_ood/'  \
     --score_OOD prob
 ```
-We provide the checkpoints of [CIFAR/WRN-28-10](https://drive.google.com/drive/folders/1zA1_LrFniLsqT7lsxm288jieVbNdSywh?usp=drive_link) and [ImageNet200/ResNet50](https://drive.google.com/drive/folders/179oyS6Oetssnlo5tvpo17NYRcEfrmvfM?usp=drive_link). The trained models can be evaluated for reproducing the results reported in the paper. Our code for evaluation on OOD detection is implemented based on [Outlier-Exposure](https://github.com/hendrycks/outlier-exposure) and [KNN](https://github.com/deeplearning-wisc/knn-ood). If you have any code related questions, we highly recommened to check the issues in Outlier-Exposure.
+To run prototype classifier based on OVA or DCE evaluation for ImageNet-500/DeiT-S, please refer to:
+```
+python test_ood_ova.py \
+    --model_path <checkpoint>  \
+    --name evaluation  \
+    --ID_dataset_dir 'imagenet/'  \
+    --OOD_dataset_dir 'imagenet_ood/'  \
+    --score_OOD ova|sigmoid
+```
+
+We provide the checkpoints of [CIFAR/WRN-28-10](https://drive.google.com/drive/folders/1zA1_LrFniLsqT7lsxm288jieVbNdSywh?usp=drive_link) and [ImageNet200/ResNet50](https://drive.google.com/drive/folders/179oyS6Oetssnlo5tvpo17NYRcEfrmvfM?usp=drive_link). The trained models can be evaluated for reproducing the results reported in the paper. Code for training prototype classifier using DeiT-S is implemented based on [the official DeiT repository](https://github.com/facebookresearch/deit/tree/main). Our code for evaluation on OOD detection is implemented based on [Outlier-Exposure](https://github.com/hendrycks/outlier-exposure) and [KNN](https://github.com/deeplearning-wisc/knn-ood). If you have any code related questions, we highly recommened to check the issues in Outlier-Exposure.
 
 ## Results
 ### Performance for CIFAR/WRN-28-10
@@ -99,15 +112,20 @@ We provide the checkpoints of [CIFAR/WRN-28-10](https://drive.google.com/drive/f
 </p>
 <p align="center">
 
+### Performance on ImageNet-500 DeiT-S/ResNet-50
+<p align="center">
+    <img src="images/results_imagenet500.png" width="800"\>
+</p>
+<p align="center">
 
 ## Citation
 If you find this useful in your research, please consider citing
 ```
-@article{cheng2023unified,
+@article{cheng2024unified,
   title={Unified Classification and Rejection: A One-versus-All Framework},
   author={Cheng, Zhen and Zhang, Xu-Yao and Liu, Cheng-Lin},
-  journal={arXiv preprint arXiv:2311.13355},
-  year={2023}
+  journal={Machine Intelligence Research},
+  year={2024}
 }
 ```
 and/or our related works
